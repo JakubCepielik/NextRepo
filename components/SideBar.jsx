@@ -1,6 +1,9 @@
+'use client'
+import { useAuth } from "@/app/lib/AuthContext";
 import Link from "next/link";
 
 function SideBar({children}) {
+  const {user} = useAuth();
     return (  
         <>
         <div className="drawer lg:drawer-open">
@@ -17,7 +20,7 @@ function SideBar({children}) {
       {/* Sidebar content here */}
       <li><Link href="/user/login">Login</Link></li>
       <li><Link href="/user/register">Register</Link></li>
-      <li><Link href="/user/profile">Profile</Link></li>
+      {user && <li><Link href="/user/profile">Profile</Link></li>}
     </ul>
   </div>
 </div>
