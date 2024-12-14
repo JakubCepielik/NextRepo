@@ -31,27 +31,14 @@ function LoginForm() {
         </a>
 
         <h1 className="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-          Welcome to Squid 🦑
+          Witaj
         </h1>
 
         <p className="mt-4 leading-relaxed text-gray-500">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
-          quibusdam aperiam voluptatum.
+          Zaloguj się byku
         </p>
 
         <form action="#" className="mt-8 grid grid-cols-6 gap-6">
-          <div className="col-span-6 sm:col-span-3">
-            <label htmlFor="FirstName" className="block text-sm font-medium text-gray-700">
-              First Name
-            </label>
-
-            <input
-              type="text"
-              id="FirstName"
-              name="first_name"
-              className="mt-1 w-full rounded-md border-gray-200 bg-white text-lg text-gray-700 shadow-sm"
-            />
-          </div>
 
           <div className="col-span-6">
             <label htmlFor="Email" className="block text-sm font-medium text-gray-700"> Email </label>
@@ -79,14 +66,6 @@ function LoginForm() {
 
           
 
-          <div className="col-span-6">
-            <p className="text-sm text-gray-500">
-              By creating an account, you agree to our
-              <a href="#" className="text-gray-700 underline"> terms and conditions </a>
-              and
-              <a href="#" className="text-gray-700 underline">privacy policy</a>.
-            </p>
-          </div>
 
           <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
             <button
@@ -95,10 +74,7 @@ function LoginForm() {
              Login
             </button>
 
-            <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-              Already have an account?
-              <a href="#" className="text-gray-700 underline">Log in</a>.
-            </p>
+
           </div>
         </form>
       </div>
