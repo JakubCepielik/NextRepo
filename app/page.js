@@ -1,11 +1,17 @@
 import Image from "next/image";
-
+import HomeImage from "./homePic.jpg"
 export default function Home() {
   return (
     <>
-    <h1>Home</h1>
-    <button className="bg-cyan-700 p-2 rounded-lg hover:bg-slate-800">Click</button>
-    <button className="btn btn-primary">Daisy</button>
+    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+        <Image 
+          src={HomeImage}
+          alt="Description" 
+          layout="fill" 
+          objectFit="cover" 
+          priority
+        />
+      </div>
     </>
   );
 }
