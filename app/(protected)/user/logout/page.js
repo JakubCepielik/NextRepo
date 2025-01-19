@@ -12,7 +12,7 @@ export default function Logout() {
     const performLogout = async () => {
       try {
         await signOut(auth);
-        router.push('/user/login'); // Przekierowanie na stronę logowania po wylogowaniu
+        router.push('/'); // Przekierowanie na stronę logowania po wylogowaniu
       } catch (error) {
         console.error("Logout error:", error.message);
       }

@@ -1,47 +1,104 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { auth } from '@/app/lib/firebase';
-import defaultProfileImage from '@/components/profile_default.jpg'; // Zaimportuj obraz
-import Image from "next/image";
+'use client'
 
-function UserPage() {
-  const [user, setUser] = useState(null);
+import { getAuth, updateProfile } from "firebase/auth";
+import { useAuth } from "@/app/lib/AuthContext";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      if (currentUser) {
-        setUser({
-          uid: currentUser.uid,
-          email: currentUser.email,
-          displayName: currentUser.displayName,
-          photoURL: currentUser.photoURL,
-        });
-      } else {
-        setUser(null);
-      }
-    });
+export default function UserProfileForm() {
+  const { user } = useAuth();
+  const auth = getAuth();
+  const { register, handleSubmit } = useForm();
 
-    return () => unsubscribe();
-  }, []);
+  const [error, setError] = useState(""); 
 
-  if (!user) {
-    return <h1>Please log in to view your profile.</h1>;
-  }
+  const onSubmit = (data) => {
+    updateProfile(user, {
+      displayName: data.displayName,
+      photoURL: data.photoURL,
+    })
+      .then(() => {
+        console.log("Profile updated");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
 
   return (
-    <div>
-      <h1>User Profile</h1>
-      <div>
-        <Image 
-          src={ defaultProfileImage} // Użyj zaimportowanego obrazu jako domyślnego
-          alt="User Avatar"
-          style={{ borderRadius: '50%', width: '150px', height: '150px' }}
-        />
-        <h2>Name: {user.displayName || 'Anonymous'}</h2>
-        <p>Email: {user.email}</p>
+    <section className="bg-white">
+      <div className="max-w-xl mx-auto py-8 px-4">
+        <h1 className="text-2xl font-bold text-gray-900">Twój profil</h1>
+
+        {user?.photoURL && (
+          <div className="mt-4">
+            <img
+              src={user.photoURL}
+              alt="Zdjęcie profilowe"
+              className="w-24 h-24 rounded-full border"
+            />
+          </div>
+        )}
+
+        {error && (
+          <div className="mt-4 p-4 text-red-700 bg-red-100 rounded">
+            <p>{error}</p>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-6">
+          <div>
+            <label htmlFor="displayName" className="block text-sm font-medium text-gray-700">
+              Nazwa wyświetlana
+            </label>
+            <input
+              type="text"
+              id="displayName"
+              name="displayName"
+              {...register("displayName")}
+              defaultValue={user?.displayName || ""}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={user?.email || ""}
+              readOnly
+              className="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 shadow-sm sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="photoURL" className="block text-sm font-medium text-gray-700">
+              URL zdjęcia profilowego
+            </label>
+            <input
+              type="text"
+              id="photoURL"
+              name="photoURL"
+              {...register("photoURL")}
+              defaultValue={user?.photoURL || ""}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Zapisz zmiany
+            </button>
+          </div>
+        </form>
       </div>
-    </div>
+    </section>
   );
 }
-
-export default UserPage;

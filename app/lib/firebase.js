@@ -10,7 +10,7 @@ const firebaseConfig = {
   authDomain: "wseifronteendapp.firebaseapp.com",
   projectId: "wseifronteendapp",
   storageBucket: "wseifronteendapp.firebasestorage.app",
-  messagingSenderId: "303196241934",
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
   appId: "1:303196241934:web:4242aaa4896aea3b1efc5f"
 };
 

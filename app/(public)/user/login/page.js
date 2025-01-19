@@ -1,13 +1,13 @@
 'use client'
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
+import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '@/app/lib/firebase';
 import { useRouter } from 'next/navigation';
 
 function LoginForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [errorMessage, setErrorMessage] = useState(null); // Stan do przechowywania błędów
+  const [errorMessage, setErrorMessage] = useState(null); 
   const router = useRouter();
 
   const onSubmit = (data) => {
@@ -15,13 +15,20 @@ function LoginForm() {
       .then(() => {
         signInWithEmailAndPassword(auth, data.email, data.password)
           .then((userCredential) => {
-            router.push('/user/profile'); // Przekierowanie na stronę logowania po sukcesie
+            const user = userCredential.user;
+
+            if (!user.emailVerified) {
+
+              router.push('/user/verify');
+            } else {
+              router.push('/user/profile'); 
+            }
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.error(errorCode, errorMessage);
-            setErrorMessage("Nie ma takiego użytkownika lub hasło jest niepoprawne!"); // Ustawienie komunikatu o błędzie
+            setErrorMessage("Nie ma takiego użytkownika lub hasło jest niepoprawne!"); 
           });
       })
       .catch((error) => {
@@ -30,7 +37,7 @@ function LoginForm() {
   };
 
   const handleErrorClose = () => {
-    setErrorMessage(null); // Ukryj komunikat o błędzie
+    setErrorMessage(null); 
   };
 
   return (
