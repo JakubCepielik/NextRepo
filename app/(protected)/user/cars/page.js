@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/app/lib/AuthContext";
 import { db } from "@/app/lib/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc} from "firebase/firestore";
 
 function ReadCars() {
   const { user } = useAuth();
@@ -15,13 +15,13 @@ function ReadCars() {
 
     const fetchCars = async () => {
         try {
-          const userPath = "/users/" + user.uid 
-          const q = query(collection(db, "cars"),("where","==",userPath));
+          const userRef = doc(db, "users", user.uid);
+          const base = collection(db, "cars");
+          const q = query(base, where("user","==", userRef));
           const querySnapshot = await getDocs(q);
-  
-          const carsData = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
+          const carsData = querySnapshot.docs.map(docum => ({
+            id: docum.id,
+            ...docum.data(),
           }));
   
           setCars(carsData);
