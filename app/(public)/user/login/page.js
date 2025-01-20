@@ -62,7 +62,6 @@ function LoginForm() {
               Zaloguj się byku
             </p>
 
-            {/* Formularz logowania */}
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8 grid grid-cols-6 gap-6">
               <div className="col-span-6">
                 <label htmlFor="Email" className="block text-sm font-medium text-gray-700"> Email </label>
@@ -112,7 +111,6 @@ function LoginForm() {
               </div>
             </form>
 
-            {/* Modal błędu */}
             {errorMessage && (
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-6 rounded-lg shadow-lg">
