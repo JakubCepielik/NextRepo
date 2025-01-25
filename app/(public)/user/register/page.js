@@ -5,15 +5,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
+
 export default function RegisterForm() {
   const { user } = useAuth();
   const router = useRouter();
 
-  if (user) {
-    return null;
-  }
 
-  const auth = getAuth();
   const {
     register,
     handleSubmit,
@@ -22,6 +19,12 @@ export default function RegisterForm() {
   } = useForm();
 
   const [registerError, setRegisterError] = useState("");
+  if (user) {
+    return null;
+  }
+
+  const auth = getAuth();
+ 
 
   const onSubmit = (data) => {
     if (data.password !== data.confirmPassword) {

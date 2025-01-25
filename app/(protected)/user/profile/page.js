@@ -6,12 +6,14 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { db } from '@/app/lib/firebase';
 import { setDoc, doc, getDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 export default function UserProfileForm() {
   const { user } = useAuth();
   const auth = getAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(""); 
+  const router = useRouter();
 
   const {
     register,
@@ -28,6 +30,12 @@ export default function UserProfileForm() {
 
   useEffect(() => {
     const fetchAddress = async () => {
+      if (!user) {
+        setError('Użytkownik nie jest zalogowany.');
+        setLoading(false);
+        router.push('user/login');
+        return;
+      }
       try {
         const snapshot = await getDoc(doc(db, "users", user?.uid));
         if (snapshot.exists()) {

@@ -59,7 +59,7 @@ function LoginForm() {
               Witaj
             </h1>
             <p className="mt-4 leading-relaxed text-gray-500">
-              Zaloguj się byku
+              Zaloguj się kolego
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8 grid grid-cols-6 gap-6">

@@ -6,11 +6,10 @@ import { usePathname } from 'next/navigation';
 
 function Protected({children}) {
     const { user } = useAuth();
-    const returnUrl = usePathname();
 
     useLayoutEffect(() => {
         if (!user){
-            redirect(`/user/singin?returnUrl=${returnUrl}`);
+            redirect(`/user/login`);
         }
     }, []);
     return ( <>
